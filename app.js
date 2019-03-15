@@ -4,7 +4,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const adminRoutes = require('./routes/admin');
+//set global configuration value - see docs
+app.set('view engine', 'pug');
+
+const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 //parse request bodies..
@@ -20,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public2')));
 //     next();
 // });
 
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 //catch all middleware - use - handle all http methods
@@ -35,4 +38,4 @@ app.listen(3000);
 
 //GET - url and links
 
-//pkill node - to kill node processes (EARADDRESS IN USE)
+//pkill node - to kill node processes (EADDRINUSE)
