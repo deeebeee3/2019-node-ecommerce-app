@@ -10,7 +10,7 @@ router.get('/', (req, res, next)=>{
     //render will use default templating engine - dont have to construct path to the views folder - already set in app.js
     
     const products = adminData.products;
-    res.render('shop', {prods: products, pageTitle: 'Shop', path: '/'});
+    res.render('shop', {prods: products, pageTitle: 'Shop', path: '/', hasProducts: products.length > 0});
 });
 
 module.exports = router;
