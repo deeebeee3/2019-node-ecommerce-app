@@ -2,24 +2,10 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const expressHbs = require('express-handlebars');
 
 const app = express();
 
-//pug engine is built in - handlebars is not so return initialized handlebars view engine
-app.engine('hbs', expressHbs({
-    layoutsDir: 'views/layouts/',
-    defaultLayout: 'main-layout',
-    extname: 'hbs' //annoying but need to do this for handlebars to use layout temolate
-}));
-
-//set global configuration value - see docs
-//app.set('view engine', 'pug');
-
-//switch out pug for handlebars
-app.set('view engine', 'hbs');
-
-//default setting: process.cwd() + '/views'
+app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const adminData = require('./routes/admin');
@@ -35,17 +21,11 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public2')));
 
-// app.use('/', (req, res, next) => {
-//     console.log('This always runs');
-//     next();
-// });
-
 app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 //catch all middleware - use - handle all http methods
 app.use((req, res, next) => {
-    //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
     res.status(404).render('404', {
         pageTitle: 'Page Not Found'
     });
