@@ -7,6 +7,9 @@ const app = express();
 //set global configuration value - see docs
 app.set('view engine', 'pug');
 
+//default setting: process.cwd() + '/views'
+app.set('views', 'views');
+
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
@@ -28,7 +31,8 @@ app.use(shopRoutes);
 
 //catch all middleware - use - handle all http methods
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+    //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+    res.status(404).render('404');
 });
 
 app.listen(3000);
