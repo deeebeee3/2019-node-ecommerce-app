@@ -1,11 +1,19 @@
 const path = require('path');
+
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const app = express();
 
+//pug engine is built in - handlebars is not so return initialized handlebars view engine
+app.engine('hbs', expressHbs());
+
 //set global configuration value - see docs
-app.set('view engine', 'pug');
+//app.set('view engine', 'pug');
+
+//switch out pug for handlebars
+app.set('view engine', 'hbs');
 
 //default setting: process.cwd() + '/views'
 app.set('views', 'views');
