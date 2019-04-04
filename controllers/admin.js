@@ -15,13 +15,11 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    //pass function to be executed - (products) => {...} - once products read from file
     Product.fetchAll((products) => {
-        res.render('shop/product-list', {
+        res.render('admin/products', {
             prods: products,
-            pageTitle: 'Shop',
-            path: '/',
-            hasProducts: products.length > 0
+            pageTitle: 'Admin Products',
+            path: '/admin/products'
         });
     });
 };
