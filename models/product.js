@@ -33,7 +33,9 @@ module.exports = class Product {
 
             //now save back to file
             fs.writeFile(p, JSON.stringify(products), (err) => {
-                console.log(err);
+                if(err){
+                    console.log(err);
+                }
             });
         });
     };
