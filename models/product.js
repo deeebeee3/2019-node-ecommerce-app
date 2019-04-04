@@ -29,18 +29,23 @@ module.exports = class Product {
         });
     };
 
-    static fetchAll() {
+    static fetchAll(cb) {
+        //executed
         const p = path.join(
             path.dirname(process.mainModule.filename), 
             'data', 
             'products.json'
         );
 
+        //executed
+        //(err, fileContent) => {...} callback is registered in event emitter registry
+        //then finishes with function
+        //fetchAll does not return anything
         fs.readFile(p, (err, fileContent) => {
             if(err){
-                return []
+                cb([]);
             }
-            return JSON.parse(fileContent);
+            cb(JSON.parse(fileContent));
         });
     };
 
