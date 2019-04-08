@@ -30,6 +30,8 @@ module.exports = class Product {
     };
 
     save() {
+        //adds a new id property to the entire product model we're working on
+        this.id = Math.random().toString();
         getProductsFromFile((products) => {
             //if don't use an arrow func, this will lose context and not refer to the class.
             products.push(this);
