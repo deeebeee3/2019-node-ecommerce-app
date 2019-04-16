@@ -61,6 +61,21 @@ module.exports = class Product {
         });
     };
 
+    static deleteById(id){
+        getProductsFromFile(products => {
+            //creates an array filled with all array elements that pass a test
+            //keep all products i dont want to delete
+            const updatedProducts = products.filter(p => prod.id !== id); //filter is synchronous
+
+            //save all products except for the one i want to delete back to the file
+            fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+                if(!err){
+                    // now delete product from cart...
+                }
+            });
+        });
+    }
+
     static fetchAll(cb) {
         getProductsFromFile(cb);
     };
