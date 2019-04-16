@@ -22,7 +22,8 @@ const getProductsFromFile = (cb) => {
 };
 
 module.exports = class Product {
-    constructor(title, imageUrl, price, description) {
+    constructor(id, title, imageUrl, price, description) {
+        this.id = id; //will be null for a new product
         this.title = title;
         this.imageUrl = imageUrl;
         this.price = price;
@@ -30,18 +31,33 @@ module.exports = class Product {
     };
 
     save() {
-        //adds a new id property to the entire product model we're working on
-        this.id = Math.round((Math.random() * 10000000000)).toString();
         getProductsFromFile((products) => {
-            //if don't use an arrow func, this will lose context and not refer to the class.
-            products.push(this);
+            if(this.id){
+                //Replace an existing product in array with updated product
+                const existingProductIndex = products.findIndex(prod => prod.id === this.id);
+                const updatedProducts = [...products];
+                updatedProducts[existingProductIndex] = this;
 
-            //now save back to file
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-                if(err){
-                    console.log(err);
-                }
-            });
+                fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+                    if(err){
+                        console.log(err);
+                    }
+                });
+            }else{
+                //Create a new product
+                //adds a new id property to the entire product model we're working on
+                this.id = Math.round((Math.random() * 10000000000)).toString();
+
+                //if don't use an arrow func, this will lose context and not refer to the class.
+                products.push(this);
+    
+                //now save back to file
+                fs.writeFile(p, JSON.stringify(products), (err) => {
+                    if(err){
+                        console.log(err);
+                    }
+                });
+            }
         });
     };
 
