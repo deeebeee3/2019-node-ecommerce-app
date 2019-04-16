@@ -31,7 +31,7 @@ module.exports = class Product {
 
     save() {
         //adds a new id property to the entire product model we're working on
-        this.id = Math.random().toString();
+        this.id = Math.round((Math.random() * 10000000000)).toString();
         getProductsFromFile((products) => {
             //if don't use an arrow func, this will lose context and not refer to the class.
             products.push(this);
