@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const Cart = require('./cart');
+
 const p = path.join(
     path.dirname(process.mainModule.filename),
     'data',
@@ -63,14 +65,17 @@ module.exports = class Product {
 
     static deleteById(id){
         getProductsFromFile(products => {
+            const product = products.find(prod => prod.id === id);
+            
             //creates an array filled with all array elements that pass a test
             //keep all products i dont want to delete
-            const updatedProducts = products.filter(p => prod.id !== id); //filter is synchronous
+            const updatedProducts = products.filter(prod => prod.id !== id); //filter is synchronous
 
             //save all products except for the one i want to delete back to the file
             fs.writeFile(p, JSON.stringify(updatedProducts), err => {
                 if(!err){
                     // now delete product from cart...
+                    Cart.deleteProduct(id, product.price);
                 }
             });
         });
