@@ -48,6 +48,11 @@ module.exports = class Cart {
             }
             const updatedCart = { ...JSON.parse(fileContent) };
             const product = updatedCart.products.find(prod => prod.id === id);
+            
+            if(!product){
+                return;
+            }
+
             const productQty = product.qty;
 
             //all products except one i want to delete
