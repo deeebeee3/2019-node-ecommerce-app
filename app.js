@@ -14,7 +14,13 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-db.execute('SELECT * FROM products');
+db.execute('SELECT * FROM products')
+    .then((result) => {
+        console.log(result[0], result[1]);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 //parse request bodies..
 app.use(bodyParser.urlencoded({
