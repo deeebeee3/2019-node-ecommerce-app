@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
+const db = require('./utils/database');
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+
+db.execute('SELECT * FROM products');
 
 //parse request bodies..
 app.use(bodyParser.urlencoded({
