@@ -13,22 +13,25 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    const product = new Product(null, title, imageUrl, price, description);
-    product.save();
-    
-    res.redirect('/');
+    const product = new Product(null, title, imageUrl, description, price);
+    product
+        .save()
+        .then(() => {
+            res.redirect('/');
+        })
+        .catch(err => console.log(err));
 };
 
 exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit; //this will be a string
-    if(!editMode){
+    if (!editMode) {
         return res.redirect('/');
     }
     //get dynamic segment from edit-product route
     const prodId = req.params.productId;
 
     Product.findById(prodId, (product) => {
-        if(!product){
+        if (!product) {
             return res.redirect('/');
         }
         res.render('admin/edit-product', {
@@ -48,8 +51,8 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImageUrl = req.body.imageUrl;
     const updatedDesc = req.body.description;
 
-    const updatedProduct = new Product(prodId, updatedTitle,updatedImageUrl, updatedPrice, updatedDesc);
-    
+    const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedPrice, updatedDesc);
+
     updatedProduct.save();
     res.redirect('/admin/products');
 };
