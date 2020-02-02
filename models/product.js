@@ -1,6 +1,6 @@
-const Sequelize = requirw('sequelize');
+const Sequelize = require('sequelize');
 
-const sequelize = require('../utils/database');
+const sequelize = require('../util/database');
 
 const Product = sequelize.define('product', {
     id: {
@@ -19,7 +19,7 @@ const Product = sequelize.define('product', {
         allowNull: false
     },
     description: {
-        type: Sequelize.STRINF,
+        type: Sequelize.STRING,
         allowNull: false
     }
 });
