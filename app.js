@@ -36,7 +36,7 @@ sequelize.sync().then(result => {
     console.log(err);
 });
 
-app.listen(3000);
+app.listen(4000);
 
 //WHY RUNS TWICE? Your browser is making a request to the server searching for a favicon.ico file. 
 //The browser initiates this request itself and triggers the middleware on our server.
