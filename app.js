@@ -27,6 +27,17 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public2')));
 
+//just registering some middleware - will only get call when requests triggered
+app.use((req, res, next) => {
+    User.findByPk(1)
+        .then(user => {
+            //storing sequelized object in the request with new key of user
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
@@ -37,13 +48,24 @@ Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
 
 //dont use force: true in production - dont want to overwrite tables...
-sequelize.sync({ force: true }).then(result => {
-    // console.log(result);
-}).catch(err => {
-    console.log(err);
-});
-
-app.listen(4000);
+sequelize
+    .sync(/* { force: true } */)
+    .then(result => {
+        return User.findByPk(1);
+    })
+    .then(user => {
+        if (!user) {
+            return User.create({ name: 'Max', email: 'test@test.com' });
+        }
+        return Promise.resolve(user);
+    })
+    .then(user => {
+        //console.log(user);
+        app.listen(4000);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 //WHY RUNS TWICE? Your browser is making a request to the server searching for a favicon.ico file. 
 //The browser initiates this request itself and triggers the middleware on our server.
