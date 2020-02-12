@@ -51,7 +51,7 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
     Cart.getCart(cart => {
-        Product.fetchAll(products => {
+        Product.findAll(products => {
             const cartProducts = [];
             //got cart and got products now just need to filter out products actually in the cart
             for (product of products) {

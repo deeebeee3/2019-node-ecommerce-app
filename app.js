@@ -27,7 +27,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public2')));
 
-//just registering some middleware - will only get call when requests triggered
+//just registering some middleware - will only get called / run when requests triggered
+//not when node app started up
 app.use((req, res, next) => {
     User.findByPk(1)
         .then(user => {

@@ -15,10 +15,8 @@
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.2",
     "mysql2": "^2.1.0",
-    "pug": "^2.0.3",
-    "sequelize": "^5.21.3"
+    "sequelize": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^11.10.4",
