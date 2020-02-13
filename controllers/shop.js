@@ -59,10 +59,43 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.findById(prodId, (product) => {
-        Cart.addProduct(prodId, product.price);
-    });
-    res.redirect('/cart');
+    let fetchedCart;  //need to access the cart further down
+
+    req.user
+        .getCart()
+        .then(cart => {
+            fetchedCart = cart;
+            return cart.getProducts({ where: { id: prodId } });
+        })
+        .then(products => {
+            let product;
+            let newQuantity = 1;
+
+            //is product in the cart?
+            if (products.length > 0) {
+                product = products[0];
+            }
+
+            //if product is in cart then increase quantity
+            if (product) {
+                //... increase quantity
+            }
+
+            //otherwise add new product to cart
+            return Product.findByPk(prodId)
+                .then(product => {
+                    //add quantity to every entry in CartItem (inbetween) table
+                    //set quantity field to newquantity in CartItem table
+                    return fetchedCart.addProduct(product, {
+                        through: { quantity: newQuantity }
+                    });
+                })
+                .catch(err => console.log(err));
+        })
+        .then(() => {
+            res.redirect('/cart');
+        })
+        .catch(err => console.log(err));
 }
 
 exports.postCartDeleteItem = (req, res, next) => {
