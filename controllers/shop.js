@@ -79,6 +79,11 @@ exports.postCart = (req, res, next) => {
             //if product is in cart then increase quantity
             if (product) {
                 //... increase quantity
+                const oldQuantity = product.cartItem.quantity;
+                newQuantity = oldQuantity + 1;
+                return fetchedCart.addProduct(product, {
+                    through: { quantity: newQuantity }
+                });
             }
 
             //otherwise add new product to cart
