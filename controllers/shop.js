@@ -60,6 +60,7 @@ exports.getCart = (req, res, next) => {
 exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
     let fetchedCart;  //need to access the cart further down
+    let newQuantity = 1;
 
     req.user
         .getCart()
@@ -69,7 +70,6 @@ exports.postCart = (req, res, next) => {
         })
         .then(products => {
             let product;
-            let newQuantity = 1;
 
             //is product in the cart?
             if (products.length > 0) {
@@ -81,21 +81,16 @@ exports.postCart = (req, res, next) => {
                 //... increase quantity
                 const oldQuantity = product.cartItem.quantity;
                 newQuantity = oldQuantity + 1;
-                return fetchedCart.addProduct(product, {
-                    through: { quantity: newQuantity }
-                });
+                return product;
             }
 
             //otherwise add new product to cart
             return Product.findByPk(prodId)
-                .then(product => {
-                    //add quantity to every entry in CartItem (inbetween) table
-                    //set quantity field to newquantity in CartItem table
-                    return fetchedCart.addProduct(product, {
-                        through: { quantity: newQuantity }
-                    });
-                })
-                .catch(err => console.log(err));
+        })
+        .then(product => {
+            return fetchedCart.addProduct(product, {
+                through: { quantity: newQuantity }
+            });
         })
         .then(() => {
             res.redirect('/cart');
