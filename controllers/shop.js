@@ -41,7 +41,7 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
     req.user
-        .getCart()
+        .getCart() //magic method
         .then(cart => {
             return cart
                 .getProducts() //added by sequelize as a magic method because of associations in app.js
