@@ -13,19 +13,9 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-
-    //createProduct method gets added to user by sqequelize because we defined in our relations in app.js
-    //that a user has many products / a product belongs to a user
-    //req.user.createProduct()
-
-    req.user
-        .createProduct({
-            title: title,
-            price: price,
-            imageUrl: imageUrl,
-            description: description,
-            // userId: req.user.id
-        })
+    const product = new Product(title, price, description, imageUrl);
+    product
+        .save()
         .then(result => {
             console.log('Created Product' + result);
             res.redirect('/admin/products');

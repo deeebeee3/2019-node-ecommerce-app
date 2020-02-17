@@ -12,7 +12,7 @@ class Product {
         const db = getDb();
 
         // db.collection('products').insertOne({title: 'blah', price: 12.99});
-        db.collection('products')
+        return db.collection('products')
             .insertOne(this)
             .then((result) => {
                 console.log(result);
