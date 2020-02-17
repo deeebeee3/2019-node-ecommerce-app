@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const errorController = require('./controllers/error');
 const mongoconnect = require('./util/database').mongoConnect;
 
+const User = require('./models/user');
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -22,13 +24,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public2')));
 
 app.use((req, res, next) => {
-    // User.findByPk(1)
-    //     .then(user => {
-    //         //storing sequelized object in the request with new key of user
-    //         req.user = user;
-    //         next();
-    //     })
-    //     .catch(err => console.log(err));
+    User.findById('5e4ae75e6ef7f4810363e41b')
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
 
     next(); // every incoming request will die here withoug calling next();
 });
