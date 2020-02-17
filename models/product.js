@@ -1,5 +1,4 @@
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
+const getDb = require('../util/database').getDb;
 
 class Product {
     constructor(title, price, description, imageUrl) {
