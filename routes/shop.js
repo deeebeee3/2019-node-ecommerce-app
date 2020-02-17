@@ -12,16 +12,16 @@ router.get('/products', shopController.getProducts);
 //more specific routes need to be above routes with a dynamic segment :...
 //router.get('/products/delete', doSomething);
 
-router.get('/products/:productId', shopController.getProduct)
+// router.get('/products/:productId', shopController.getProduct)
 
-router.get('/cart', shopController.getCart);
+// router.get('/cart', shopController.getCart);
 
-router.post('/cart', shopController.postCart);
+// router.post('/cart', shopController.postCart);
 
-router.post('/cart-delete-item', shopController.postCartDeleteItem);
+// router.post('/cart-delete-item', shopController.postCartDeleteItem);
 
-router.post('/create-order', shopController.postOrder);
+// router.post('/create-order', shopController.postOrder);
 
-router.get('/orders', shopController.getOrders);
+// router.get('/orders', shopController.getOrders);
 
 module.exports = router;
