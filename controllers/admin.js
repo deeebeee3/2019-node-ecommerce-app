@@ -24,56 +24,53 @@ exports.postAddProduct = (req, res, next) => {
         })
 };
 
-// exports.getEditProduct = (req, res, next) => {
-//     const editMode = req.query.edit; //this will be a string
-//     if (!editMode) {
-//         return res.redirect('/');
-//     }
+exports.getEditProduct = (req, res, next) => {
+    const editMode = req.query.edit; //this will be a string
+    if (!editMode) {
+        return res.redirect('/');
+    }
 
-//     const prodId = req.params.productId;
+    const prodId = req.params.productId;
 
-//     req.user.getProducts({ where: { id: prodId } })
-//         // Product.findByPk(prodId)
-//         .then(products => {
+    Product
+        .findById(prodId)
+        .then(product => {
+            if (!product) {
+                return res.redirect('/');
+            }
+            res.render('admin/edit-product', {
+                pageTitle: 'Edit Product',
+                path: '/admin/edit-product',
+                editing: editMode,
+                product: product
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
 
-//             const product = products[0];
-
-//             if (!product) {
-//                 return res.redirect('/');
-//             }
-//             res.render('admin/edit-product', {
-//                 pageTitle: 'Edit Product',
-//                 path: '/admin/edit-product',
-//                 editing: editMode,
-//                 product: product
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         });
-// };
-
-// exports.postEditProduct = (req, res, next) => {
-//     //comes from hidden input if in editing mode in edit-product view
-//     const prodId = req.body.productId;
-//     const updatedTitle = req.body.title;
-//     const updatedPrice = req.body.price;
-//     const updatedImageUrl = req.body.imageUrl;
-//     const updatedDesc = req.body.description;
-//     Product.findByPk(prodId)
-//         .then(product => {
-//             product.title = updatedTitle;
-//             product.price = updatedPrice;
-//             product.description = updatedDesc;
-//             product.imageUrl = updatedImageUrl;
-//             product.save();
-//         })
-//         .then(result => {
-//             console.log('UPDATED PRODUCT' + result);
-//             res.redirect('/admin/products');
-//         })
-//         .catch(err => console.log(err));
-// };
+exports.postEditProduct = (req, res, next) => {
+    //comes from hidden input if in editing mode in edit-product view
+    const prodId = req.body.productId;
+    const updatedTitle = req.body.title;
+    const updatedPrice = req.body.price;
+    const updatedImageUrl = req.body.imageUrl;
+    const updatedDesc = req.body.description;
+    Product.findByPk(prodId)
+        .then(product => {
+            product.title = updatedTitle;
+            product.price = updatedPrice;
+            product.description = updatedDesc;
+            product.imageUrl = updatedImageUrl;
+            product.save();
+        })
+        .then(result => {
+            console.log('UPDATED PRODUCT' + result);
+            res.redirect('/admin/products');
+        })
+        .catch(err => console.log(err));
+};
 
 exports.getProducts = (req, res, next) => {
     Product
