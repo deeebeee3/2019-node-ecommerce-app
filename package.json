@@ -16,7 +16,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mysql2": "^2.1.0",
-    "sequelize": "^4.0.0"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "@types/node": "^11.10.4",
